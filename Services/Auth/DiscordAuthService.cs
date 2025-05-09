@@ -7,15 +7,16 @@ namespace BattleshipBackend.Services.Auth;
 
 public class DiscordAuthService(IConfiguration configuration) : IOAuthProvider
 {
-    private readonly string _redirectUri = configuration["Discord:RedirectUri"];
+    private readonly string _redirectUri = configuration["Discord:RedirectUri"] ??
+                                           throw new Exception("Discord RedirectUri configuration is missing.");
 
-    public async Task<Uri> GetAuthUrl()
+    public Task<Uri> GetAuthUrl()
     {
         var scopes = new ScopesBuilder(OAuthScope.Identify, OAuthScope.Email);
-        var oAuth = new DiscordOAuth(_redirectUri, scopes, "");
+        var oAuth = new DiscordOAuth(_redirectUri, scopes, "hello world");
         var url = oAuth.GetAuthorizationUrl();
 
-        return new Uri(url);
+        return Task.FromResult(new Uri(url));
     }
 
     public async Task<AuthenticatedUser> GetAuthenticatedUser(string code)
@@ -23,8 +24,9 @@ public class DiscordAuthService(IConfiguration configuration) : IOAuthProvider
         var scopes = new ScopesBuilder(OAuthScope.Identify, OAuthScope.Email);
         var oAuth = new DiscordOAuth(_redirectUri, scopes, "");
 
-        var token = await oAuth.GetTokenAsync(code);
-        var user = await oAuth.GetUserAsync(token);
+        var token = await oAuth.GetTokenAsync(code) ?? throw new Exception();
+        var user = await oAuth.GetUserAsync(token)
+                   ?? throw new Exception("Failed to retrieve user information from Discord.");
 
         var avatarUrl = user.Avatar != null
             ? $"https://cdn.discordapp.com/avatars/{user.Id}/{user.Avatar}.png"
