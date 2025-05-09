@@ -61,4 +61,22 @@ public class AuthController(IAuthService authService) : Controller
             });
         }
     }
+
+    [HttpGet("discord/callback")]
+    public async Task<IActionResult> DiscordCallback([FromQuery] string code)
+    {
+        try
+        {
+            var authToken = await authService.AuthorizeUser(AuthStrategies.Discord, code);
+
+            return Ok(new { authToken });
+        }
+        catch (Exception)
+        {
+            return BadRequest(new
+            {
+                error = "An error occurred while processing the Discord authentication callback. Please try again later."
+            });
+        }
+    }
 }
