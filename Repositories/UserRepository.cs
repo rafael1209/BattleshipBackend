@@ -28,6 +28,14 @@ public class UserRepository(IMongoDbContext dbContext) : IUserRepository
         return user;
     }
 
+    public async Task<User?> TryGetUserByAuthToken(string authToken)
+    {
+        var filter = Builders<User>.Filter.Eq(u => u.AuthToken, authToken);
+        var user = await _users.Find(filter).FirstOrDefaultAsync();
+
+        return user;
+    }
+
     public async Task<User> CreateUser(User user)
     {
         await _users.InsertOneAsync(user);

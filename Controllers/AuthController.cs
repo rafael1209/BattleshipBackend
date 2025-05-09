@@ -26,24 +26,6 @@ public class AuthController(IAuthService authService) : Controller
         }
     }
 
-    [HttpGet("discord/url")]
-    public async Task<IActionResult> GetDiscordAuthUrl()
-    {
-        try
-        {
-            var authUrl = await authService.GetAuthUrl(AuthStrategies.Discord);
-
-            return Ok(new { url = authUrl });
-        }
-        catch (Exception)
-        {
-            return BadRequest(new
-            {
-                error = "An error occurred while generating the Discord authentication URL. Please try again later."
-            });
-        }
-    }
-
     [HttpGet("google/callback")]
     public async Task<IActionResult> GoogleCallback([FromQuery] string code)
     {
@@ -58,6 +40,24 @@ public class AuthController(IAuthService authService) : Controller
             return BadRequest(new
             {
                 error = "An error occurred while processing the Google authentication callback. Please try again later."
+            });
+        }
+    }
+
+    [HttpGet("discord/url")]
+    public async Task<IActionResult> GetDiscordAuthUrl()
+    {
+        try
+        {
+            var authUrl = await authService.GetAuthUrl(AuthStrategies.Discord);
+
+            return Ok(new { url = authUrl });
+        }
+        catch (Exception)
+        {
+            return BadRequest(new
+            {
+                error = "An error occurred while generating the Discord authentication URL. Please try again later."
             });
         }
     }
