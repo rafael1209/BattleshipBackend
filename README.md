@@ -15,6 +15,11 @@
     "ClientSecret": "GOOGLE_SECRET_ID",
     "RedirectUri": "GOOGLE_REDIRECT_URI"
   },
+  "Discord": {
+    "ClientId": "DISCORD_CLIENT_ID",
+    "ClientSecret": "DISCORD_CLIENT_SECRET",
+    "RedirectUri": "DISCORD_REDIRECT_URI"
+  },
   "MongoDb": {
     "ConnectionString": "mongodb://localhost:27017",
     "DatabaseName": "battleship-bd"
