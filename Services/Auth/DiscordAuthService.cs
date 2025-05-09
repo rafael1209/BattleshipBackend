@@ -13,7 +13,7 @@ public class DiscordAuthService(IConfiguration configuration) : IOAuthProvider
     public Task<Uri> GetAuthUrl()
     {
         var scopes = new ScopesBuilder(OAuthScope.Identify, OAuthScope.Email);
-        var oAuth = new DiscordOAuth(_redirectUri, scopes, "hello world");
+        var oAuth = new DiscordOAuth(_redirectUri, scopes, "");
         var url = oAuth.GetAuthorizationUrl();
 
         return Task.FromResult(new Uri(url));
