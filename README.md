@@ -1,6 +1,9 @@
 # BattleshipBackend
 
+## Development
+
 `appsettings.json`
+
 ```json
 {
   "Logging": {
@@ -31,9 +34,10 @@
 }
 ```
 
-# Docker
+## Docker
 
 `docker-compose.yml`
+
 ```yml
 version: '3.8'
 
