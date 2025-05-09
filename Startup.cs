@@ -1,4 +1,7 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using BattleshipBackend.Enums;
+using BattleshipBackend.Interfaces;
+using BattleshipBackend.Services.Auth;
+using Microsoft.OpenApi.Models;
 namespace BattleshipBackend;
 
 public class Startup
@@ -29,6 +32,10 @@ public class Startup
 
         services.AddHttpContextAccessor();
         services.AddMemoryCache();
+
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddKeyedScoped<IOAuthProvider, GoogleAuthService>(AuthStrategies.Google);
+        services.AddKeyedScoped<IOAuthProvider, DiscordAuthService>(AuthStrategies.Discord);
 
         services.AddCors(options =>
         {

@@ -1,0 +1,35 @@
+﻿using BattleshipBackend.Interfaces;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
+
+namespace BattleshipBackend.Services.Auth;
+
+public class GoogleAuthService(IConfiguration configuration) : IOAuthProvider
+{
+    private readonly string _clientId = configuration["Google:ClientId"]
+        ?? throw new ArgumentNullException($"Google:ClientId", "Google Client ID is not configured.");
+    private readonly string _clientSecret = configuration["Google:ClientSecret"]
+        ?? throw new ArgumentNullException($"Google:ClientSecret", "Google Client Secret is not configured.");
+    private readonly string _redirectUri = configuration["Google:RedirectUri"]
+        ?? throw new ArgumentNullException($"Google:RedirectUri", "Google Redirect URI is not configured.");
+
+    public Task<Uri> GetAuthUrl()
+    {
+        var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+        {
+            ClientSecrets = new ClientSecrets
+            {
+                ClientId = _clientId,
+                ClientSecret = _clientSecret
+            },
+            Scopes = ["email", "profile"]
+        });
+
+        return Task.FromResult(flow.CreateAuthorizationCodeRequest(_redirectUri).Build());
+    }
+
+    public Task<string> GetEmailAddress(string code)
+    {
+        throw new NotImplementedException();
+    }
+}
