@@ -1,4 +1,6 @@
 ﻿using BattleshipBackend.Interfaces;
+using BattleshipBackend.Models;
+using Google.Apis.Auth;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 
@@ -28,8 +30,23 @@ public class GoogleAuthService(IConfiguration configuration) : IOAuthProvider
         return Task.FromResult(flow.CreateAuthorizationCodeRequest(_redirectUri).Build());
     }
 
-    public Task<string> GetEmailAddress(string code)
+    public async Task<AuthenticatedUser> GetEmailAddress(string code)
     {
-        throw new NotImplementedException();
+        var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+        {
+            ClientSecrets = new ClientSecrets
+            {
+                ClientId = _clientId,
+                ClientSecret = _clientSecret
+            }
+        });
+
+        var tokenResponse = await flow.ExchangeCodeForTokenAsync("me", code, _redirectUri, CancellationToken.None);
+
+        var payload = await GoogleJsonWebSignature.ValidateAsync(tokenResponse.IdToken);
+
+        var authenticatedUser = new AuthenticatedUser(payload.Name, payload.Email, payload.Picture);
+        
+        return authenticatedUser;
     }
 }

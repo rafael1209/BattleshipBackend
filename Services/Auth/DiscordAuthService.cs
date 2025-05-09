@@ -1,4 +1,5 @@
 ﻿using BattleshipBackend.Interfaces;
+using BattleshipBackend.Models;
 
 namespace BattleshipBackend.Services.Auth;
 
@@ -9,7 +10,7 @@ public class DiscordAuthService : IOAuthProvider
         return new Uri("https://discord.com");
     }
 
-    public Task<string> GetEmailAddress(string code)
+    public Task<AuthenticatedUser> GetEmailAddress(string code)
     {
         throw new NotImplementedException();
     }

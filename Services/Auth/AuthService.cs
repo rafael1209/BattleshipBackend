@@ -16,4 +16,16 @@ public class AuthService(
             _ => throw new ArgumentOutOfRangeException(nameof(strategy), strategy, null)
         };
     }
+
+    public async Task<string> AuthorizeUser(AuthStrategies strategy, string code)
+    {
+        var authenticatedUser = strategy switch
+        {
+            AuthStrategies.Google => await googleAuthProvider.GetEmailAddress(code),
+            AuthStrategies.Discord => await discordAuthProvider.GetEmailAddress(code),
+            _ => throw new ArgumentOutOfRangeException(nameof(strategy), strategy, null)
+        };
+
+        return $"{authenticatedUser.Name} {authenticatedUser.Email} {authenticatedUser.AvatarUrl}"; //TODO: Generate JWT token
+    }
 }

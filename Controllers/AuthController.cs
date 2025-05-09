@@ -43,4 +43,22 @@ public class AuthController(IAuthService authService) : Controller
             });
         }
     }
+
+    [HttpGet("google/callback")]
+    public async Task<IActionResult> GoogleCallback([FromQuery] string code)
+    {
+        try
+        {
+            var authToken = await authService.AuthorizeUser(AuthStrategies.Google, code);
+
+            return Ok(new { authToken });
+        }
+        catch (Exception)
+        {
+            return BadRequest(new
+            {
+                error = "An error occurred while processing the Google authentication callback. Please try again later."
+            });
+        }
+    }
 }

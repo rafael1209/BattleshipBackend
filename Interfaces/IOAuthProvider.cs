@@ -1,7 +1,9 @@
-﻿namespace BattleshipBackend.Interfaces;
+﻿using BattleshipBackend.Models;
+
+namespace BattleshipBackend.Interfaces;
 
 public interface IOAuthProvider
 {
     Task<Uri> GetAuthUrl();
-    Task<string> GetEmailAddress(string code);
+    Task<AuthenticatedUser> GetEmailAddress(string code);
 }
