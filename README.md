@@ -83,8 +83,6 @@ services:
       - "443:443"
     volumes:
       - ./nginx-conf:/etc/nginx/conf.d
-    depends_on:
-      - chasman-front
     networks:
       - app-network
       
