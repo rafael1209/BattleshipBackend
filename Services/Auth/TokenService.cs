@@ -4,7 +4,7 @@ using System.Text;
 using BattleshipBackend.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 
-namespace BattleshipBackend.Services;
+namespace BattleshipBackend.Services.Auth;
 
 public class TokenService(IConfiguration configuration) : ITokenService
 {
