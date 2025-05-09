@@ -10,7 +10,7 @@ public class DiscordAuthService : IOAuthProvider
         return new Uri("https://discord.com");
     }
 
-    public Task<AuthenticatedUser> GetEmailAddress(string code)
+    public Task<AuthenticatedUser> GetAuthenticatedUser(string code)
     {
         throw new NotImplementedException();
     }

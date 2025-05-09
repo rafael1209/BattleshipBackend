@@ -1,5 +1,8 @@
-﻿using BattleshipBackend.Enums;
+﻿using BattleshipBackend.Databases;
+using BattleshipBackend.Enums;
 using BattleshipBackend.Interfaces;
+using BattleshipBackend.Repositories;
+using BattleshipBackend.Services;
 using BattleshipBackend.Services.Auth;
 using Microsoft.OpenApi.Models;
 namespace BattleshipBackend;
@@ -33,9 +36,15 @@ public class Startup
         services.AddHttpContextAccessor();
         services.AddMemoryCache();
 
+        services.AddSingleton<IMongoDbContext, MongoDbContext>();
+
+        services.AddScoped<IUserRepository, UserRepository>();
+
         services.AddScoped<IAuthService, AuthService>();
         services.AddKeyedScoped<IOAuthProvider, GoogleAuthService>(AuthStrategies.Google);
         services.AddKeyedScoped<IOAuthProvider, DiscordAuthService>(AuthStrategies.Discord);
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ITokenService, TokenService>();
 
         services.AddCors(options =>
         {

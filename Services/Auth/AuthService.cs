@@ -21,11 +21,11 @@ public class AuthService(
     {
         var authenticatedUser = strategy switch
         {
-            AuthStrategies.Google => await googleAuthProvider.GetEmailAddress(code),
-            AuthStrategies.Discord => await discordAuthProvider.GetEmailAddress(code),
+            AuthStrategies.Google => await googleAuthProvider.GetAuthenticatedUser(code),
+            AuthStrategies.Discord => await discordAuthProvider.GetAuthenticatedUser(code),
             _ => throw new ArgumentOutOfRangeException(nameof(strategy), strategy, null)
         };
 
-        return $"{authenticatedUser.Name} {authenticatedUser.Email} {authenticatedUser.AvatarUrl}"; //TODO: Generate JWT token
+        return $""; //TODO: Generate JWT token
     }
 }

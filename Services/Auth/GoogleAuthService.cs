@@ -30,7 +30,7 @@ public class GoogleAuthService(IConfiguration configuration) : IOAuthProvider
         return Task.FromResult(flow.CreateAuthorizationCodeRequest(_redirectUri).Build());
     }
 
-    public async Task<AuthenticatedUser> GetEmailAddress(string code)
+    public async Task<AuthenticatedUser> GetAuthenticatedUser(string code)
     {
         var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
         {
