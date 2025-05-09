@@ -5,9 +5,10 @@ using BattleshipBackend.Repositories;
 using BattleshipBackend.Services;
 using BattleshipBackend.Services.Auth;
 using Microsoft.OpenApi.Models;
+using x3rt.DiscordOAuth2;
 namespace BattleshipBackend;
 
-public class Startup
+public class Startup(IConfiguration configuration)
 {
     public void ConfigureServices(IServiceCollection services)
     {
@@ -52,9 +53,14 @@ public class Startup
             {
                 builder.WithMethods("POST", "GET", "PATCH", "PUT")
                     .AllowAnyOrigin()
-                    .AllowAnyHeader();
+                .AllowAnyHeader();
             });
         });
+
+        DiscordOAuth.Configure(
+            ulong.Parse(configuration["Discord:ClientId"] ?? throw new Exception("Discord ClientId is missing in the configuration.")),
+            configuration["Discord:ClientSecret"] ?? throw new Exception("Discord ClientSecret is missing in the configuration.")
+        );
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

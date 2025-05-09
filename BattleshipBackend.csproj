@@ -15,6 +15,7 @@
     <PackageReference Include="MongoDB.Driver" Version="3.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0" />
+    <PackageReference Include="x3rt.DiscordOAuth2" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>

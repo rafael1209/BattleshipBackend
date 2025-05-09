@@ -5,8 +5,10 @@ using BattleshipBackend.Models;
 namespace BattleshipBackend.Services.Auth;
 
 public class AuthService(
-    [FromKeyedServices(AuthStrategies.Google)] IOAuthProvider googleAuthProvider,
-    [FromKeyedServices(AuthStrategies.Discord)] IOAuthProvider discordAuthProvider,
+    [FromKeyedServices(AuthStrategies.Google)]
+    IOAuthProvider googleAuthProvider,
+    [FromKeyedServices(AuthStrategies.Discord)]
+    IOAuthProvider discordAuthProvider,
     IUserService userService,
     ITokenService tokenService) : IAuthService
 {
@@ -29,14 +31,15 @@ public class AuthService(
             _ => throw new ArgumentOutOfRangeException(nameof(strategy), strategy, null)
         };
 
+        if (authenticatedUser.Email == null)
+            throw new ArgumentException("Email cannot be null", nameof(authenticatedUser.Email));
+
         var user = await userService.TryGetUserByEmail(authenticatedUser.Email) ?? await userService.CreateUser(new User
         {
-            Id = default,
             Name = authenticatedUser.Name,
             Email = authenticatedUser.Email,
             AvatarUrl = authenticatedUser.AvatarUrl,
-            AuthToken = tokenService.GenerateToken(authenticatedUser.Email),
-            CreatedAt = default
+            AuthToken = tokenService.GenerateToken(authenticatedUser.Email)
         });
 
         return $"{user.AuthToken}";
