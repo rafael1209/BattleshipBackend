@@ -1,1 +1,27 @@
 # BattleshipBackend
+
+`appsettings.json`
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "Google": {
+    "ClientId": "GOOGLE_CLIENT_ID",
+    "ClientSecret": "GOOGLE_SECRET_ID",
+    "RedirectUri": "GOOGLE_REDIRECT_URI"
+  },
+  "MongoDb": {
+    "ConnectionString": "mongodb://localhost:27017",
+    "DatabaseName": "battleship-bd"
+  },
+  "Jwt": {
+    "SecretKey": "JWT_SECRET_KEY",
+    "Issuer": "JWT_ISSUER"
+  }
+}
+```
