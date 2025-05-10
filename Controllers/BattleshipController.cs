@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BattleshipBackend.Controllers;
 
-[Route("api/v1/battleship")]
+[Route("api/v1/game-room")]
 [ApiController]
 public class BattleshipController(IBattleshipService battleshipService) : Controller
 {

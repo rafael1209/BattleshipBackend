@@ -6,6 +6,7 @@ using BattleshipBackend.Services;
 using BattleshipBackend.Services.Auth;
 using Microsoft.OpenApi.Models;
 using x3rt.DiscordOAuth2;
+
 namespace BattleshipBackend;
 
 public class Startup(IConfiguration configuration)
@@ -17,7 +18,7 @@ public class Startup(IConfiguration configuration)
 
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "SpCharity API", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Battleship API", Version = "v1" });
             c.AddSecurityDefinition(
                 "ApiKey",
                 new OpenApiSecurityScheme
