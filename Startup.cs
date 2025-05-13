@@ -52,9 +52,9 @@ public class Startup(IConfiguration configuration)
         {
             options.AddPolicy("AllowAll", builder =>
             {
-                builder.WithMethods("POST", "GET", "PATCH", "PUT")
+                builder.AllowAnyMethod()
                     .AllowAnyOrigin()
-                .AllowAnyHeader();
+                    .AllowAnyHeader();
             });
         });
 
